@@ -5,6 +5,9 @@ const { LocationVisit } = require('../models/locationvisit-model');
 const { EventLocation } = require('../models/eventlocation-model');
 const { Visitor } = require('../models/visitor-model');
 const mongoose = require('mongoose');
+const { EventLocationRepository } = require('./eventlocation-repository');
+
+const eventLocationRepository = new EventLocationRepository();
 
 class EventRepository {
     async createEvent(organizerId, body) {
@@ -23,6 +26,41 @@ class EventRepository {
         event.save();
 
         return event;
+    }
+
+    async editEvent(eventId, body) {
+        const event = await Event.findById(eventId);
+
+        await event.update({
+            name: body.name,
+            startDate: body.startDate,
+            finishDate: body.finishDate,
+            locationCountry: body.locationCountry,
+            locationCity: body.locationCity,
+            locationAddress: body.locationAddress,
+            locationPlace: body.locationPlace,
+            description: body.description
+        });
+
+        event.save();
+
+        await eventLocationRepository.editLocationsForEvent(eventId, body);
+
+        return event;
+    }
+
+    async deleteEvent(eventId) {
+        await Event.findByIdAndDelete(eventId);
+    }
+
+    async deleteEventsForOrganizer(orgId) {
+        await Event.deleteMany({ 'organizer._id': mongoose.Types.ObjectId(orgId)});
+    }
+
+    async editEventsForOrganizer(orgId, body) {
+        await Event.updateMany({ "organizer._id": mongoose.Types.ObjectId(orgId) }, {
+            'organizer.companyName': body.companyName
+        })
     }
 
     async getAllEvents() {
