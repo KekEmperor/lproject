@@ -87,14 +87,14 @@ router.put('/admin/:adminId/organizer/:orgId/edit', adminAuth, async (req, res) 
     }
 })
 
-router.delete('/admin/:adminId/event/:eventId/delete', adminAuth, async (req, res) => {
+/*router.delete('/admin/:adminId/event/:eventId/delete', adminAuth, async (req, res) => {
     if (req.params.adminId !== req.admin._id) {
         return res
             .status(403)
             .send('Access denied');
     }
 
-    
-})
+
+})*/
 
 module.exports = router;
