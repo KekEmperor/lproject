@@ -5,8 +5,11 @@ const bodyParser = require('body-parser');
 const visitorRouter = require('../lproject/routers/visitor-router')
 const organizerRouter = require('../lproject/routers/organizer-router');
 const eventRouter = require('../lproject/routers/event-router')
+const cors = require('cors');
 
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.use('/', visitorRouter);
 app.use('/', organizerRouter);

@@ -21,8 +21,12 @@ class VisitorRepository {
 
     async setVisitorForEvent(visitorId, eventId) {
         console.log(eventId, visitorId);
+
+        const vsis = await Visitor.findOne({ _id: visitorId });
+        console.log(vsis)
+
         const visitorForEvent = new VisitorForEvent({
-            visitor: await Visitor.findById(visitorId),
+            visitor: vsis,
             event: await Event.findById(eventId)
         });
 

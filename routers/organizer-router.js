@@ -167,7 +167,7 @@ router.get('/organizer/:orgId/event/:eventId/stat/count', orgAuth, async (req, r
 
     const result = await logicProvider.getVisitorsNumber(req.params.eventId);
 
-    if (result) {
+    if (result || result === 0) {
         res.status(200).send("" + result);
     }
     else {
