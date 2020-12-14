@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const visitorRouter = require('../lproject/routers/visitor-router')
-const organizerRouter = require('../lproject/routers/organizer-router');
-const eventRouter = require('../lproject/routers/event-router')
 const cors = require('cors');
+
+const visitorRouter = require('./routers/visitor-router')
+const organizerRouter = require('./routers/organizer-router');
+const eventRouter = require('./routers/event-router');
+const adminRouter = require('./routers/admin-router');
 
 app.use(bodyParser.json());
 
@@ -14,6 +16,7 @@ app.use(cors());
 app.use('/', visitorRouter);
 app.use('/', organizerRouter);
 app.use('/', eventRouter);
+app.use('/', adminRouter);
 
 mongoose.connect('mongodb+srv://kekemperor:winnerman@lproject.zhitj.mongodb.net/lproject?retryWrites=true&w=majority', { useNewUrlParser: true });
 mongoose.connection

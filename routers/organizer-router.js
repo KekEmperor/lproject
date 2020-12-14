@@ -63,6 +63,25 @@ router.post('/organizer/login', async (req, res) => {
     }
 });
 
+router.put('/organizer/:orgId/edit', orgAuth, async (req, res) => {
+    if (req.params.orgId !== req.organizer._id) {
+        return res
+            .status(403)
+            .send('Access denied');
+    }
+
+    const organizer = await organizerRepository.editOrganizer(req.params.orgId, req.body);
+
+    if (organizer) {
+        res
+            .status(200)
+            .send(organizer);
+    }
+    else {
+        res.sendStatus(400);
+    }
+})
+
 router.post('/organizer/:id/events', orgAuth, async (req, res) => {
     if (req.params.id !== req.organizer._id) {
         return res
@@ -119,6 +138,25 @@ router.get('/organizer/:orgId/event/:eventId', orgAuth, async (req, res) => {
         res.sendStatus(400);
     }
 });
+
+router.put('/organizer/:orgId/event/:eventId/edit', orgAuth, async (req, res) => {
+    if (req.params.orgId !== req.organizer._id) {
+        return res
+            .status(403)
+            .send('Access denied');
+    }
+
+    const event = await eventRepository.editEvent(req.params.eventId, req.body);
+
+    if (event) {
+        res
+            .status(200)
+            .send(event);
+    }
+    else {
+        res.sendStatus(400);
+    }
+})
 
 router.post('/organizer/:orgId/event/:eventId', orgAuth, async (req, res) => {
     if (req.params.orgId !== req.organizer._id) {

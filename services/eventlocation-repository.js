@@ -27,6 +27,19 @@ class EventLocationRepository {
         const location = await EventLocation.findById(id);
         return location;
     }
+
+    async editLocationsForEvent(eventId, body) {
+        await EventLocation.updateMany({ "baseEvent._id": mongoose.Types.ObjectId(eventId) }, {
+            'baseEvent.name': body.name,
+            'baseEvent.startDate': body.startDate,
+            'baseEvent.finishDate': body.finishDate,
+            'baseEvent.locationCountry': body.locationCountry,
+            'baseEvent.locationCity': body.locationCity,
+            'baseEvent.locationAddress': body.locationAddress,
+            'baseEvent.locationPlace': body.locationPlace,
+            'baseEvent.description': body.description
+        });
+    }
 }
 
 exports.EventLocationRepository = EventLocationRepository;
