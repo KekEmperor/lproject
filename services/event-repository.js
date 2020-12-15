@@ -50,7 +50,9 @@ class EventRepository {
     }
 
     async deleteEvent(eventId) {
-        await Event.findByIdAndDelete(eventId);
+        const event = await Event.findByIdAndDelete(eventId);
+        
+        return event;
     }
 
     async deleteEventsForOrganizer(orgId) {

@@ -28,6 +28,26 @@ class OrganizerRepository {
 
         return organizer;
     }
+
+    async getAllOrganizers() {
+        const organizers = await Organizer.find({});
+
+        return organizers;
+    }
+
+    async deleteOrganizer(orgId) {
+        const organizer = await Organizer.findByIdAndDelete(orgId);
+
+        await eventRepository.deleteEventsForOrganizer(orgId);
+
+        return organizer;
+    }
+
+    async getOrganizerById(orgId) {
+        const organizer = await Organizer.findById(orgId);
+
+        return organizer;
+    }
 }
 
 exports.OrganizerRepository = OrganizerRepository;

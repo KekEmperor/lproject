@@ -76,4 +76,17 @@ router.post('/visitor/:id/setEvent', visAuth, async (req, res) => {
     }
 })
 
+router.get('/visitor', async (req, res) => {
+    const visitors = await visitorRepository.getAllVisitors()
+
+    if (visitors) {
+        res
+            .status(200)
+            .send(visitors);
+    }
+    else {
+        res.send(400);
+    }
+})
+
 module.exports = router;

@@ -20,19 +20,45 @@ class VisitorRepository {
     }
 
     async setVisitorForEvent(visitorId, eventId) {
-        console.log(eventId, visitorId);
-
-        const vsis = await Visitor.findOne({ _id: visitorId });
-        console.log(vsis)
-
         const visitorForEvent = new VisitorForEvent({
-            visitor: vsis,
+            visitor: await Visitor.findOne({ _id: visitorId }),
             event: await Event.findById(eventId)
         });
 
         await visitorForEvent.save();
 
         return visitorForEvent;
+    }
+
+    async getVisitorById(visitorId) {
+        const visitor = await Visitor.findById(visitorId);
+
+        return visitor;
+    }
+
+    async getAllVisitors() {
+        const visitors = await Visitor.find({});
+
+        return visitors;
+    }
+
+    async deleteVisitor(visitorId) {
+        const visitor = await Visitor.findByIdAndDelete(visitorId);
+
+        return visitor;
+    }
+
+    async editVisitor(visitorId, body) {
+        const visitor = await Visitor.findById(visitorId)
+
+        await visitor.update({
+            firstName: body.firstName,
+            lastName: body.lastName,
+            gender: body.gender,
+            birthYear: body.birthYear
+        })
+
+        return visitor;
     }
 }
 
