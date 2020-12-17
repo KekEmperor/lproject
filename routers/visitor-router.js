@@ -57,6 +57,23 @@ router.post('/visitor/login', async (req, res) => {
     }
 });
 
+router.get('/visitor/:id', visAuth, async (req, res) => {
+    if (req.params.id !== req.visitor._id) {
+        return res
+            .status(403)
+            .send('Access denied');
+    }
+
+    const visitor = await visitorRepository.getVisitorById(req.params.id)
+
+    if (visitor) {
+        return res.status(200).send(visitor)
+    }
+    else {
+        return res.sendStatus(404)
+    }
+})
+
 router.post('/visitor/:id/setEvent', visAuth, async (req, res) => {
     if (req.params.id !== req.visitor._id) {
         return res
