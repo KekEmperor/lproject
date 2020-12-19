@@ -29,6 +29,30 @@ router.get('/event/:eventId/visitor/:visitorId', async (req, res) => {
     }
 });
 
+router.get('/event/:eventId/locations', async (req, res) => {
+    const eventLocations = await eventLocationRepository.getLocationsOfEvent(req.params.eventId);
+
+    if (eventLocations) {
+        res
+            .status(200)
+            .send(eventLocations);
+    }
+    else {
+        res.sendStatus(400);
+    }
+})
+
+router.get('/event/:eventId/visitor/:visitorId/getVisits', async (req, res) => {
+    const visits = await eventRepository.getAllVisitsOfEventByVisitor(req.params.eventId, req.params.visitorId)
+
+    if (visits) {
+        res.status(200).send(visits)
+    }
+    else {
+        res.sendStatus(400)
+    }
+})
+
 router.post('/eventLocation/:id/visitor', async (req, res) => {
     const locationVisit = await eventRepository.setVisitOnLocation(req.params.id, req.body);
 

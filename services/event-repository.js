@@ -157,6 +157,15 @@ class EventRepository {
             const normVisits = await this.normalizeVisitsByVisitor(eventId, visitorId);
         });
     }
+
+    async getAllVisitsOfEventByVisitor(eventId, visitorId) {
+        const visits = await LocationVisit.find({
+            "location.baseEvent._id": mongoose.Types.ObjectId(eventId),
+            "visitor._id": mongoose.Types.ObjectId(visitorId)
+        });
+
+        return visits;
+    }
 }
 
 exports.EventRepository = EventRepository;
